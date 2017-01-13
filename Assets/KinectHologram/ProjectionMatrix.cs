@@ -26,6 +26,7 @@ public class ProjectionMatrix : MonoBehaviour
 
     private Camera cameraComponent;
 	public bool drawNearCone = true;
+	public bool drawPlane = true;
 	public bool drawFrustum = false;
 
     void LateUpdate()
@@ -33,21 +34,23 @@ public class ProjectionMatrix : MonoBehaviour
         cameraComponent = GetComponent<Camera>();
         if (null != projectionScreen && null != cameraComponent)
         {
+			// lower left corner in world coordinates
             Vector3 pa = projectionScreen.transform.TransformPoint(new Vector3(-5.0f, 0.0f, -5.0f));
-            // lower left corner in world coordinates
+            
+			// lower right corner
             Vector3 pb = projectionScreen.transform.TransformPoint(new Vector3(5.0f, 0.0f, -5.0f));
-            // lower right corner
-            Vector3 pc = projectionScreen.transform.TransformPoint(new Vector3(-5.0f, 0.0f, 5.0f));
+            
 			// upper left corner
+            Vector3 pc = projectionScreen.transform.TransformPoint(new Vector3(-5.0f, 0.0f, 5.0f));
+
+			// upper right corner
 			Vector3 pd = projectionScreen.transform.TransformPoint(new Vector3(5.0f, 0.0f, 5.0f));
 
 
-            Vector3 pe = transform.position;
-            // eye position
-            float n = cameraComponent.nearClipPlane;
-            // distance of near clipping plane
-            float f = cameraComponent.farClipPlane;
-            // distance of far clipping plane
+			Vector3 pe = transform.position; // eye position
+			float n = cameraComponent.nearClipPlane; // distance of near clipping plane
+			float f = cameraComponent.farClipPlane; // distance of far clipping plane
+            
 
             Vector3 va; // from pe to pa
             Vector3 vb; // from pe to pb
@@ -182,14 +185,23 @@ public class ProjectionMatrix : MonoBehaviour
                 }
             }
 
-			if ( drawNearCone ) { //Draw lines from the camera to the corners f the screen
+			//Draw lines from the camera to the corners f the screen
+			if (drawNearCone) {
 				Debug.DrawRay( cameraComponent.transform.position, va, Color.blue );
 				Debug.DrawRay( cameraComponent.transform.position, vb, Color.blue );
 				Debug.DrawRay( cameraComponent.transform.position, vc, Color.blue );
 				Debug.DrawRay( cameraComponent.transform.position, vd, Color.blue );
 			}
 
-			if ( drawFrustum ) DrawFrustum( cameraComponent ); //Draw actual camera frustum
+			if (drawPlane) {
+				Debug.DrawLine (pa, pb, Color.green);
+				Debug.DrawLine (pb, pd, Color.green);
+				Debug.DrawLine (pd, pc, Color.green);
+				Debug.DrawLine (pc, pa, Color.green);
+				Debug.DrawLine (pa, pd, Color.green);
+			}
+
+			if (drawFrustum) DrawFrustum( cameraComponent ); //Draw actual camera frustum
         }
     }
 
