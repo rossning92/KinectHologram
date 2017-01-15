@@ -12,7 +12,7 @@ public class HeadTrack3Points : MonoBehaviour {
 		Done
 	}
 
-	public GameObject camera;
+	public GameObject headJointNode;
 
 	private List<Vector3> points = new List<Vector3> ();
 
@@ -57,7 +57,7 @@ public class HeadTrack3Points : MonoBehaviour {
 		float y = Vector3.Dot (pos, uy) * 2 / ly;
 		float z = -(Vector3.Dot (pos, uz) + 0.5f) * 2 / lx;
 
-		camera.transform.localPosition = new Vector3 (x, y, z);
+		headJointNode.transform.localPosition = new Vector3 (x, y, z);
 		Debug.Log ("POS: " + x + "," + y + "," + z);
 	}
 
