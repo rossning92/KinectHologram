@@ -185,7 +185,7 @@ public class ProjectionMatrix : MonoBehaviour
                 }
             }
 
-			//Draw lines from the camera to the corners f the screen
+			// Draw lines from the camera to the corners f the screen
 			if (drawNearCone) {
 				Debug.DrawRay( cameraComponent.transform.position, va, Color.blue );
 				Debug.DrawRay( cameraComponent.transform.position, vb, Color.blue );
@@ -193,6 +193,7 @@ public class ProjectionMatrix : MonoBehaviour
 				Debug.DrawRay( cameraComponent.transform.position, vd, Color.blue );
 			}
 
+			// Draw screen plane
 			if (drawPlane) {
 				Debug.DrawLine (pa, pb, Color.green);
 				Debug.DrawLine (pb, pd, Color.green);
@@ -201,11 +202,13 @@ public class ProjectionMatrix : MonoBehaviour
 				Debug.DrawLine (pa, pd, Color.green);
 			}
 
-			if (drawFrustum) DrawFrustum( cameraComponent ); //Draw actual camera frustum
+			// Draw actual camera frustum
+			if (drawFrustum) DrawFrustum( cameraComponent );
         }
     }
 
-	Vector3 ThreePlaneIntersection ( Plane p1, Plane p2, Plane p3 ) { //get the intersection point of 3 planes
+	// Calculate the intersection point of 3 planes
+	Vector3 ThreePlaneIntersection ( Plane p1, Plane p2, Plane p3 ) { 
 		return ( ( -p1.distance * Vector3.Cross( p2.normal, p3.normal ) ) +
 			( -p2.distance * Vector3.Cross( p3.normal, p1.normal ) ) +
 			( -p3.distance * Vector3.Cross( p1.normal, p2.normal ) ) ) /
